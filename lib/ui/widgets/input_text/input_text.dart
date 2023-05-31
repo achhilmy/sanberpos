@@ -15,7 +15,7 @@ class InputTextWidget extends StatefulWidget {
   final Function? onFieldTap;
 
   const InputTextWidget(
-      {@required this.hintText,
+      {super.key, @required this.hintText,
       this.focusNode,
       this.textInputType,
       this.defaultText,

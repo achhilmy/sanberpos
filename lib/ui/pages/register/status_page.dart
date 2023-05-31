@@ -8,7 +8,7 @@ class StatusPages extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         width: MediaQuery.of(context).size.width / 1,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -20,13 +20,13 @@ class StatusPages extends StatelessWidget {
               style:
                   titleText.copyWith(fontSize: 24, fontWeight: FontWeight.w700),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               'You have successfully registered. Click button bellow to continue using the apps',
               style:
                   titleText.copyWith(fontSize: 16, fontWeight: FontWeight.w400),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             ButtonLoading(

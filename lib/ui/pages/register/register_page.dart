@@ -1,39 +1,56 @@
 part of '../pages.dart';
 
-class RegisterPages extends StatelessWidget {
+class RegisterPages extends StatefulWidget {
   const RegisterPages({super.key});
 
+  @override
+  State<RegisterPages> createState() => _RegisterPagesState();
+}
+
+class _RegisterPagesState extends State<RegisterPages> {
+  // final cc = Get.find<LoginController>();
+  final _passwordVisible = false;
+  final _formKeyReg = GlobalKey<FormState>();
+  //GlobalKey<FormState> _formKeyReg = GlobalKey<FormState>();
+  final authc = Get.put(AuthController());
+  final registerc = Get.put(RegisterController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         // appBar: AppBar(title: Text('Login Screen')),
-        body: SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 10,
+        body: Obx(
+      () => LoadingOverlay(
+        isLoading: authc.isLoadingReg.value,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                headerTitle(context),
+                const SizedBox(
+                  height: 32,
+                ),
+                titleSignIn(context),
+                formPhoneNumberAndPassword(context),
+                buttonCheckout(context),
+              ],
             ),
-            headerTitle(context),
-            const SizedBox(
-              height: 32,
-            ),
-            titleSignIn(context),
-            formPhoneNumberAndPassword(context),
-            buttonCheckout(context),
-          ],
+          ),
         ),
       ),
     ));
   }
 
   headerTitle(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 45,
-      child:
-          Row(children: [InkWell(onTap: () {}, child: Icon(Icons.arrow_back))]),
+      child: Row(children: [
+        InkWell(onTap: () {}, child: const Icon(Icons.arrow_back))
+      ]),
     );
   }
 
@@ -74,8 +91,9 @@ class RegisterPages extends StatelessWidget {
               border: Border.all(color: Colors.grey),
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
-          child: const TextField(
-            decoration: InputDecoration(
+          child: TextField(
+            controller: registerc.emailController,
+            decoration: const InputDecoration(
                 hintText: 'ex. yourname@gmail.com',
                 prefixIcon: Icon(
                   Icons.email,
@@ -102,9 +120,10 @@ class RegisterPages extends StatelessWidget {
               border: Border.all(color: Colors.grey),
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
-          child: const TextField(
-            decoration: InputDecoration(
-                hintText: 'ex. 9889-9870-9865',
+          child: TextField(
+            controller: registerc.nameController,
+            decoration: const InputDecoration(
+                hintText: 'name',
                 prefixIcon: Icon(
                   Icons.call,
                   color: Colors.grey,
@@ -115,7 +134,7 @@ class RegisterPages extends StatelessWidget {
         const GapWidget(
           height: 16,
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Text(
@@ -133,8 +152,9 @@ class RegisterPages extends StatelessWidget {
               border: Border.all(color: Colors.grey),
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
-          child: const TextField(
-            decoration: InputDecoration(
+          child: TextField(
+            controller: registerc.passwordController,
+            decoration: const InputDecoration(
                 prefixIcon: Icon(
                   Icons.key,
                   color: Colors.grey,
@@ -150,7 +170,7 @@ class RegisterPages extends StatelessWidget {
                 border: InputBorder.none),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Text(
@@ -168,8 +188,9 @@ class RegisterPages extends StatelessWidget {
               border: Border.all(color: Colors.grey),
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
-          child: const TextField(
-            decoration: InputDecoration(
+          child: TextField(
+            controller: registerc.confirmPasswordController,
+            decoration: const InputDecoration(
                 prefixIcon: Icon(
                   Icons.key,
                   color: Colors.grey,
@@ -208,7 +229,12 @@ class RegisterPages extends StatelessWidget {
                   titleText.copyWith(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             onPressed: () {
-              Get.toNamed(RouteName.statusPages);
+              return authc.registerTest(
+                  registerc.emailController.text,
+                  registerc.nameController.text,
+                  registerc.confirmPasswordController.text,
+                  registerc.passwordController.text);
+              // Get.toNamed(RouteName.statusPages);
             },
           ),
         ),
@@ -245,7 +271,7 @@ class RegisterPages extends StatelessWidget {
             onPressed: () {},
           ),
         ),
-        SizedBox(height: 45),
+        const SizedBox(height: 45),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

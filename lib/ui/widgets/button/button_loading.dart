@@ -39,7 +39,7 @@ class ButtonLoading extends StatelessWidget {
                               color: Colors.white,
                               size: 20,
                             ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Text(
                         '$title',
                         style: titleText.copyWith(color: Colors.white),

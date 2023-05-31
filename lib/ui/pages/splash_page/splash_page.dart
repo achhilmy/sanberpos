@@ -11,8 +11,22 @@ class _SplashPagesState extends State<SplashPages> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-        const Duration(seconds: 2), () => Get.toNamed(RouteName.loginPages));
+    onSplash();
+  }
+
+  @override
+  onSplash() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    print(pref.getString("user"));
+    var token = pref.getString("user");
+    print(token);
+    token == null
+        ? Timer(Duration(seconds: 3), () {
+            Get.toNamed(RouteName.loginPages);
+          })
+        : Timer(Duration(seconds: 3), () {
+            Get.toNamed(RouteName.mainPages);
+          });
   }
 
   @override

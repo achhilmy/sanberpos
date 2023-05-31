@@ -1,39 +1,64 @@
 part of '../pages.dart';
 
-class LoginPages extends StatelessWidget {
-  LoginPages({super.key});
+class LoginPages extends StatefulWidget {
+  const LoginPages({super.key});
+
+  @override
+  State<LoginPages> createState() => _LoginPagesState();
+}
+
+class _LoginPagesState extends State<LoginPages> {
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController passwordController = TextEditingController();
+
+  late bool _passwordVisible = false;
+
+  final _formKey = GlobalKey<FormState>();
+
+  final authcc = Get.put(AuthController());
+
+  final logincc = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         // appBar: AppBar(title: Text('Login Screen')),
-        body: SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 10,
+        body: Obx(
+      () => LoadingOverlay(
+        isLoading: authcc.isLoading.value,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  headerTitle(context),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  titleSignIn(context),
+                  formPhoneNumber(context),
+                  buttonCheckout(context),
+                ],
+              ),
             ),
-            headerTitle(context),
-            SizedBox(
-              height: 32,
-            ),
-            titleSignIn(context),
-            formPhoneNumber(context),
-            buttonCheckout(context),
-          ],
+          ),
         ),
       ),
     ));
   }
 
   headerTitle(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 45,
       child:
-          Row(children: [InkWell(onTap: () {}, child: Icon(Icons.arrow_back))]),
+          Row(children: [InkWell(onTap: () {}, child: const Icon(Icons.arrow_back))]),
     );
   }
 
@@ -74,8 +99,9 @@ class LoginPages extends StatelessWidget {
               border: Border.all(color: Colors.grey),
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
-          child: const TextField(
-            decoration: InputDecoration(
+          child: TextField(
+            controller: logincc.emailController,
+            decoration: const InputDecoration(
                 hintText: 'ex. yourname@gmail.com',
                 prefixIcon: Icon(
                   Icons.email,
@@ -102,21 +128,25 @@ class LoginPages extends StatelessWidget {
               border: Border.all(color: Colors.grey),
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
-          child: const TextField(
+          child: TextField(
+            controller: logincc.passwordController,
+            obscureText: !_passwordVisible,
             decoration: InputDecoration(
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.key,
                   color: Colors.grey,
                 ),
-                hintText: 'Type your password here',
-                suffixIcon: Align(
-                  widthFactor: 1.0,
-                  heightFactor: 1.0,
-                  child: Icon(
-                    Icons.remove_red_eye,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                    color: Theme.of(context).primaryColorDark,
                   ),
-                ),
-                border: InputBorder.none),
+                  onPressed: () {
+                    setState(() {
+                      _passwordVisible = !_passwordVisible;
+                    });
+                  },
+                )),
           ),
         )
       ],
@@ -136,15 +166,16 @@ class LoginPages extends StatelessWidget {
               color: cGrey.withOpacity(0.2),
               borderRadius: BorderRadius.circular(5)),
           child: TextButton(
-            child: Text(
-              'Login',
-              style:
-                  titleText.copyWith(fontSize: 16, fontWeight: FontWeight.w600),
-            ),
-            onPressed: () {
-              Get.toNamed(RouteName.mainPages);
-            },
-          ),
+              child: Text(
+                'Login',
+                style: titleText.copyWith(
+                    fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              onPressed: () {
+                // Get.toNamed(RouteName.mainPages);
+                return authcc.login(logincc.emailController.text,
+                    logincc.passwordController.text);
+              }),
         ),
         const GapWidget(
           height: 32,
@@ -179,7 +210,7 @@ class LoginPages extends StatelessWidget {
             onPressed: () {},
           ),
         ),
-        SizedBox(height: 45),
+        const SizedBox(height: 45),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

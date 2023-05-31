@@ -9,10 +9,10 @@ class MainApp extends StatelessWidget {
       body: SafeArea(
         child: ListView(children: [
           Container(
-            margin: EdgeInsets.only(top: 16),
+            margin: const EdgeInsets.only(top: 16),
             // height: MediaQuery.of(context).size.height / 2,
             color: secondaryColor,
-            padding: EdgeInsets.all(24),
+            padding: const EdgeInsets.all(24),
             child: nameAndNotif(context),
           ),
           Container(
@@ -21,8 +21,8 @@ class MainApp extends StatelessWidget {
             child: menuCashier(),
           ),
           Container(
-            margin: EdgeInsets.only(top: 10),
-            padding: EdgeInsets.symmetric(horizontal: 24),
+            margin: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: ButtonLoading(
               loadingButton: false,
               title: 'Go to Cashier',
@@ -60,7 +60,7 @@ class MainApp extends StatelessWidget {
             )
           ],
         ),
-        SizedBox(height: 48),
+        const SizedBox(height: 48),
         Row(
           children: [
             InkWell(
@@ -73,7 +73,7 @@ class MainApp extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                     border: Border.all(width: 0.1),
                     color: Colors.white),
-                child: Text('Transactions'),
+                child: const Text('Transactions'),
               ),
             ),
             const SizedBox(
@@ -119,7 +119,7 @@ class MainApp extends StatelessWidget {
             Container(
               height: 28,
               width: 69,
-              padding: EdgeInsets.only(left: 5),
+              padding: const EdgeInsets.only(left: 5),
               decoration: BoxDecoration(
                   color: cBlue, borderRadius: BorderRadius.circular(5)),
               child: Row(
@@ -129,7 +129,7 @@ class MainApp extends StatelessWidget {
                     color: Colors.white,
                     size: 15,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Text(
@@ -165,6 +165,7 @@ class MainApp extends StatelessWidget {
           icons: Icons.inventory_2,
           onPressed: () {
             print('product');
+            Get.toNamed(RouteName.productPages);
           },
         ),
         MenuCashier(
@@ -200,41 +201,4 @@ class MainApp extends StatelessWidget {
   }
 }
 
-class MenuCashier extends StatelessWidget {
-  const MenuCashier({super.key, this.title, this.icons, this.onPressed});
 
-  final String? title;
-  final IconData? icons;
-  final VoidCallback? onPressed;
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onPressed!(),
-      child: Container(
-        margin: EdgeInsets.only(top: 24),
-        alignment: Alignment.center,
-        child: Column(children: [
-          Container(
-            alignment: Alignment.center,
-            height: 88,
-            width: 88,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(width: 1, color: cGrey)),
-            child: Icon(
-              icons,
-              color: cBlue,
-              size: 40,
-            ),
-          ),
-          const SizedBox(height: 0),
-          Text(
-            title.toString(),
-            style:
-                titleText.copyWith(fontSize: 14, fontWeight: FontWeight.w600),
-          )
-        ]),
-      ),
-    );
-  }
-}
