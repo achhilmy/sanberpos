@@ -7,10 +7,10 @@ class ProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Product'),
+        title: const Text('Product'),
       ),
       body: Container(
-        padding: EdgeInsets.only(left: 16, top: 20, right: 16),
+        padding: const EdgeInsets.only(left: 16, top: 20, right: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -23,34 +23,51 @@ class ProductPage extends StatelessWidget {
                       fontSize: 20, fontWeight: FontWeight.w700),
                 ),
                 ElevatedButton(
-                    onPressed: () {},
-                    child: Row(
+                    onPressed: () {
+                      Get.toNamed(RouteName.addProductPages);
+                    },
+                    child: const Row(
                       children: [Icon(Icons.add), Text("Add")],
                     ))
               ],
             ),
             const SizedBox(height: 10),
-            CardProduct(
-                image:
-                    "https://www.realmadrid.com/img/vertical_380px/cristiano_550x650.jpg",
-                title: "Baju Cristiano ronaldo",
-                type: "Outer",
-                stock: "200",
-                price: "20000"),
-            CardProduct(
-                image:
-                    "https://www.realmadrid.com/img/vertical_380px/cristiano_550x650.jpg",
-                title: "Baju Cristiano ronaldo",
-                type: "Outer",
-                stock: "200",
-                price: "20000"),
-            CardProduct(
-                image:
-                    "https://www.realmadrid.com/img/vertical_380px/cristiano_550x650.jpg",
-                title: "Baju Cristiano ronaldo",
-                type: "Outer",
-                stock: "200",
-                price: "20000"),
+            InkWell(
+              onTap: () {
+                Get.toNamed(RouteName.detailProductPages);
+              },
+              child: CardProduct(
+                  image:
+                      "https://www.realmadrid.com/img/vertical_380px/cristiano_550x650.jpg",
+                  title: "Baju Cristiano ronaldo",
+                  type: "Outer",
+                  stock: "200",
+                  price: "20000"),
+            ),
+            const SizedBox(height: 10),
+            InkWell(
+                onTap: () {
+                  Get.toNamed(RouteName.detailProductPages);
+                },
+                child: CardProduct(
+                    image:
+                        "https://www.realmadrid.com/img/vertical_380px/cristiano_550x650.jpg",
+                    title: "Baju Cristiano ronaldo",
+                    type: "Outer",
+                    stock: "200",
+                    price: "20000")),
+            const SizedBox(height: 10),
+            InkWell(
+                onTap: () {
+                  Get.toNamed(RouteName.detailProductPages);
+                },
+                child: CardProduct(
+                    image:
+                        "https://www.realmadrid.com/img/vertical_380px/cristiano_550x650.jpg",
+                    title: "Baju Cristiano ronaldo",
+                    type: "Outer",
+                    stock: "200",
+                    price: "20000")),
           ],
         ),
       ),

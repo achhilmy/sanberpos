@@ -1,7 +1,10 @@
 part of '../pages.dart';
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  MainApp({super.key});
+
+  // bool? loadingVal = false;
+  RxBool? loadingValMain = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +26,23 @@ class MainApp extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(top: 10),
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: ButtonLoading(
-              loadingButton: false,
-              title: 'Go to Cashier',
-              onPressed: () {},
-              Icons: Icons.grid_view,
+            child: Obx(
+              () => ButtonLoading(
+                loadingButton: loadingValMain?.value,
+                title: 'Go to Cashier',
+                onPressed: () async {
+                  loadingValMain?.value = true;
+                  SharedPreferences preferences =
+                      await SharedPreferences.getInstance();
+                  await preferences.clear();
+                  Future.delayed(Duration(seconds: 2), () {
+                    Get.toNamed(RouteName.loginPages);
+                  });
+                },
+                Icons: Icons.grid_view,
+              ),
             ),
-          )
+          ),
         ]),
       ),
     );
@@ -165,7 +178,7 @@ class MainApp extends StatelessWidget {
           icons: Icons.inventory_2,
           onPressed: () {
             print('product');
-            Get.toNamed(RouteName.productPages);
+            Get.toNamed(RouteName.choiceCategoryProduct);
           },
         ),
         MenuCashier(
@@ -200,5 +213,3 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-
-

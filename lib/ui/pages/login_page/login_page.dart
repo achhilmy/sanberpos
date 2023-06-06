@@ -20,6 +20,8 @@ class _LoginPagesState extends State<LoginPages> {
 
   final logincc = Get.put(LoginController());
 
+  bool? loadingVal = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,8 +59,9 @@ class _LoginPagesState extends State<LoginPages> {
   headerTitle(BuildContext context) {
     return SizedBox(
       height: 45,
-      child:
-          Row(children: [InkWell(onTap: () {}, child: const Icon(Icons.arrow_back))]),
+      child: Row(children: [
+        InkWell(onTap: () {}, child: const Icon(Icons.arrow_back))
+      ]),
     );
   }
 
@@ -161,22 +164,21 @@ class _LoginPagesState extends State<LoginPages> {
           height: 32,
         ),
         Container(
-          width: MediaQuery.of(context).size.width / 1,
-          decoration: BoxDecoration(
-              color: cGrey.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(5)),
-          child: TextButton(
-              child: Text(
-                'Login',
-                style: titleText.copyWith(
-                    fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-              onPressed: () {
-                // Get.toNamed(RouteName.mainPages);
-                return authcc.login(logincc.emailController.text,
-                    logincc.passwordController.text);
-              }),
-        ),
+            width: MediaQuery.of(context).size.width / 1,
+            decoration: BoxDecoration(
+                color: cGrey.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(5)),
+            child: ButtonLoading(
+                title: 'Login',
+                loadingButton: loadingVal,
+                onPressed: () {
+                  setState(() {
+                    loadingVal = true;
+                  });
+                  // Get.toNamed(RouteName.mainPages);
+                  return authcc.login(logincc.emailController.text,
+                      logincc.passwordController.text);
+                })),
         const GapWidget(
           height: 32,
         ),

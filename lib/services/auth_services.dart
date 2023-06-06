@@ -8,10 +8,7 @@ class AuthServices {
     });
     log("ini data log login:${loginResponse.data}");
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    Map<String, dynamic> user = {
-      "user-token": loginResponse.data['data']["token"],
-    };
-    await prefs.setString("user", jsonEncode(user));
+    prefs.setString('user-token', loginResponse.data['data']["token"]);
     return loginResponse;
   }
 

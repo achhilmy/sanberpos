@@ -34,9 +34,10 @@ dependencies:
   either_dart: ^0.4.0
   flutter:
     sdk: flutter
-  get: ^4.6.5
+  get: ^5.0.0-release-candidate-4
   get_cli: ^1.8.1
   google_fonts: ^4.0.4
+  http: ^1.0.0
   loading_overlay: ^0.3.0
   shared_preferences: ^2.1.1
 
