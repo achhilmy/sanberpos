@@ -1,18 +1,22 @@
 part of 'services.dart';
 
 class AuthServices {
-  static Future<dynamic> signIn({String? email, String? password}) async {
-    final loginResponse = await DioHttp.request.post("api/auth/login", data: {
-      "email": email,
-      "password": password,
-    });
-    log("ini data log login:${loginResponse.data}");
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    Map<String, dynamic> user = {
-      "user-token": loginResponse.data['data']["token"],
-    };
-    await prefs.setString("user", jsonEncode(user));
-    return loginResponse;
+  static Future<Either<String, SignInModel>> signIn(
+      {String? email, String? password}) async {
+    final loginResponse = await DioHttp.postReq(
+        url: API_CLIENT.loginClient,
+        body: {'email': email, 'password': password});
+    log('isinya apa : ${loginResponse}');
+    return loginResponse.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) async {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('user-token', r['data']["token"]);
+        return Right(SignInModel.fromJson(r));
+      },
+    );
   }
 
   static Future<dynamic> register(

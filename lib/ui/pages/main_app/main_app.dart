@@ -18,7 +18,7 @@ class MainApp extends StatelessWidget {
           Container(
             height: MediaQuery.of(context).size.height / 3,
             color: Colors.white,
-            child: menuCashier(),
+            child: menuCashier(context),
           ),
           Container(
             margin: const EdgeInsets.only(top: 10),
@@ -149,7 +149,7 @@ class MainApp extends StatelessWidget {
     );
   }
 
-  Widget menuCashier() {
+  Widget menuCashier(context) {
     return GridView.count(
       crossAxisCount: 3,
       children: <Widget>[
@@ -164,8 +164,7 @@ class MainApp extends StatelessWidget {
           title: 'product',
           icons: Icons.inventory_2,
           onPressed: () {
-            print('product');
-            Get.toNamed(RouteName.productPages);
+            Navigator.pushNamed(context, '/list-category-product');
           },
         ),
         MenuCashier(
@@ -200,5 +199,3 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-
-

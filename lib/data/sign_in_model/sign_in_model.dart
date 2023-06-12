@@ -1,39 +1,31 @@
-class SignInModel {
-  String? responseCode;
-  String? responseMessage;
-  Data? data;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  SignInModel({this.responseCode, this.responseMessage, this.data});
+part 'sign_in_model.freezed.dart';
+part 'sign_in_model.g.dart';
 
-  SignInModel.fromJson(Map<String, dynamic> json) {
-    responseCode = json['response_code'];
-    responseMessage = json['response_message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
-  }
+@freezed
+class SignInModel with _$SignInModel {
+  // ignore: invalid_annotation_target
+  @JsonSerializable(fieldRename: FieldRename.snake)
+  const factory SignInModel({
+    String? responseCode,
+    String? responseMessage,
+    DataSignIn? data,
+    // String? error,
+  }) = _SignInModel;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['response_code'] = responseCode;
-    data['response_message'] = responseMessage;
-    if (this.data != null) {
-      data['data'] = this.data?.toJson();
-    }
-    return data;
-  }
+  factory SignInModel.fromJson(Map<String, dynamic> json) =>
+      _$SignInModelFromJson(json);
 }
 
-class Data {
-  String? token;
+@freezed
+class DataSignIn with _$DataSignIn {
+  // ignore: invalid_annotation_target
+  @JsonSerializable(fieldRename: FieldRename.snake)
+  const factory DataSignIn({
+    String? token,
+  }) = _DataSignIn;
 
-  Data({this.token});
-
-  Data.fromJson(Map<String, dynamic> json) {
-    token = json['token'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['token'] = token;
-    return data;
-  }
+  factory DataSignIn.fromJson(Map<String, dynamic> json) =>
+      _$DataSignInFromJson(json);
 }

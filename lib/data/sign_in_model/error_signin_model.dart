@@ -1,15 +1,14 @@
-class ErrorSignInModel {
-  String? message;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  ErrorSignInModel({this.message});
+part 'error_signin_model.freezed.dart';
+part 'error_signin_model.g.dart';
 
-  ErrorSignInModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-  }
+@freezed
+class ErrorSignInModel with _$ErrorSignInModel {
+  // ignore: invalid_annotation_target
+  @JsonSerializable(fieldRename: FieldRename.snake)
+  const factory ErrorSignInModel({String? message}) = _ErrorSignInModel;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['message'] = message;
-    return data;
-  }
+  factory ErrorSignInModel.fromJson(Map<String, dynamic> json) =>
+      _$ErrorSignInModelFromJson(json);
 }

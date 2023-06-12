@@ -13,7 +13,7 @@ class CardProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(3),
+      padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           border: Border.all(width: 0.1)),
@@ -43,9 +43,9 @@ class CardProduct extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Container(width: 200, child: Text(title.toString())),
+                  SizedBox(width: 200, child: Text(title.toString())),
                   const SizedBox(height: 10),
-                  Container(
+                  SizedBox(
                     width: 200,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,18 +67,18 @@ class CardProduct extends StatelessWidget {
               ),
             ],
           ),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width / 1,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                OutlinedButton(onPressed: () {}, child: Text('Edit Stok')),
-                SizedBox(width: 10),
-                OutlinedButton(onPressed: () {}, child: Text('Edit Price')),
-                SizedBox(width: 10),
+                OutlinedButton(onPressed: () {}, child: const Text('Edit Stok')),
+                const SizedBox(width: 10),
+                OutlinedButton(onPressed: () {}, child: const Text('Edit Price')),
+                const SizedBox(width: 10),
                 OutlinedButton(
                     onPressed: () {},
-                    child: Icon(
+                    child: const Icon(
                       Icons.delete,
                       color: Colors.red,
                     ))

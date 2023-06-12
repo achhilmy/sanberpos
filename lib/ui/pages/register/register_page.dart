@@ -12,33 +12,30 @@ class _RegisterPagesState extends State<RegisterPages> {
   final _passwordVisible = false;
   final _formKeyReg = GlobalKey<FormState>();
   //GlobalKey<FormState> _formKeyReg = GlobalKey<FormState>();
-  final authc = Get.put(AuthController());
-  final registerc = Get.put(RegisterController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         // appBar: AppBar(title: Text('Login Screen')),
-        body: Obx(
-      () => LoadingOverlay(
-        isLoading: authc.isLoadingReg.value,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                headerTitle(context),
-                const SizedBox(
-                  height: 32,
-                ),
-                titleSignIn(context),
-                formPhoneNumberAndPassword(context),
-                buttonCheckout(context),
-              ],
-            ),
+        body: LoadingOverlay(
+      isLoading: true,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              headerTitle(context),
+              const SizedBox(
+                height: 32,
+              ),
+              titleSignIn(context),
+              formPhoneNumberAndPassword(context),
+              buttonCheckout(context),
+            ],
           ),
         ),
       ),
@@ -91,9 +88,9 @@ class _RegisterPagesState extends State<RegisterPages> {
               border: Border.all(color: Colors.grey),
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
-          child: TextField(
-            controller: registerc.emailController,
-            decoration: const InputDecoration(
+          child: const TextField(
+            // controller: registerc.emailController,
+            decoration: InputDecoration(
                 hintText: 'ex. yourname@gmail.com',
                 prefixIcon: Icon(
                   Icons.email,
@@ -120,9 +117,9 @@ class _RegisterPagesState extends State<RegisterPages> {
               border: Border.all(color: Colors.grey),
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
-          child: TextField(
-            controller: registerc.nameController,
-            decoration: const InputDecoration(
+          child: const TextField(
+            // controller: registerc.nameController,
+            decoration: InputDecoration(
                 hintText: 'name',
                 prefixIcon: Icon(
                   Icons.call,
@@ -152,9 +149,9 @@ class _RegisterPagesState extends State<RegisterPages> {
               border: Border.all(color: Colors.grey),
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
-          child: TextField(
-            controller: registerc.passwordController,
-            decoration: const InputDecoration(
+          child: const TextField(
+            // controller: registerc.passwordController,
+            decoration: InputDecoration(
                 prefixIcon: Icon(
                   Icons.key,
                   color: Colors.grey,
@@ -188,9 +185,9 @@ class _RegisterPagesState extends State<RegisterPages> {
               border: Border.all(color: Colors.grey),
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
-          child: TextField(
-            controller: registerc.confirmPasswordController,
-            decoration: const InputDecoration(
+          child: const TextField(
+            // controller: registerc.confirmPasswordController,
+            decoration: InputDecoration(
                 prefixIcon: Icon(
                   Icons.key,
                   color: Colors.grey,
@@ -229,11 +226,8 @@ class _RegisterPagesState extends State<RegisterPages> {
                   titleText.copyWith(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             onPressed: () {
-              return authc.registerTest(
-                  registerc.emailController.text,
-                  registerc.nameController.text,
-                  registerc.confirmPasswordController.text,
-                  registerc.passwordController.text);
+              return;
+
               // Get.toNamed(RouteName.statusPages);
             },
           ),

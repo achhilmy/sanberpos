@@ -8,30 +8,25 @@ class LoginPages extends StatefulWidget {
 }
 
 class _LoginPagesState extends State<LoginPages> {
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController? emailController = TextEditingController();
+  final TextEditingController? passwordController = TextEditingController();
 
-  final TextEditingController passwordController = TextEditingController();
-
-  late bool _passwordVisible = false;
-
-  final _formKey = GlobalKey<FormState>();
-
-  final authcc = Get.put(AuthController());
-
-  final logincc = Get.put(LoginController());
+  onSubmit() {
+    print(emailController?.text);
+    context.read<AuthenticationCubit>().signIn(
+        email: emailController?.text, password: passwordController?.text);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(title: Text('Login Screen')),
-        body: Obx(
-      () => LoadingOverlay(
-        isLoading: authcc.isLoading.value,
+      // appBar: AppBar(title: Text('Login Screen')),
+      body: LoadingOverlay(
+        isLoading: false,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
-              key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -51,14 +46,15 @@ class _LoginPagesState extends State<LoginPages> {
           ),
         ),
       ),
-    ));
+    );
   }
 
   headerTitle(BuildContext context) {
     return SizedBox(
       height: 45,
-      child:
-          Row(children: [InkWell(onTap: () {}, child: const Icon(Icons.arrow_back))]),
+      child: Row(children: [
+        InkWell(onTap: () {}, child: const Icon(Icons.arrow_back))
+      ]),
     );
   }
 
@@ -100,8 +96,8 @@ class _LoginPagesState extends State<LoginPages> {
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
           child: TextField(
-            controller: logincc.emailController,
-            decoration: const InputDecoration(
+            controller: emailController,
+            decoration: InputDecoration(
                 hintText: 'ex. yourname@gmail.com',
                 prefixIcon: Icon(
                   Icons.email,
@@ -129,21 +125,21 @@ class _LoginPagesState extends State<LoginPages> {
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
           child: TextField(
-            controller: logincc.passwordController,
-            obscureText: !_passwordVisible,
+            controller: passwordController,
+            // obscureText: !_passwordVisible,
             decoration: InputDecoration(
                 prefixIcon: const Icon(
                   Icons.key,
                   color: Colors.grey,
                 ),
                 suffixIcon: IconButton(
-                  icon: Icon(
-                    _passwordVisible ? Icons.visibility : Icons.visibility_off,
-                    color: Theme.of(context).primaryColorDark,
-                  ),
+                  icon: const Icon(Icons.abc
+                      // _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                      // color: Theme.of(context).primaryColorDark,
+                      ),
                   onPressed: () {
                     setState(() {
-                      _passwordVisible = !_passwordVisible;
+                      // _passwordVisible = !_passwordVisible;
                     });
                   },
                 )),
@@ -165,17 +161,41 @@ class _LoginPagesState extends State<LoginPages> {
           decoration: BoxDecoration(
               color: cGrey.withOpacity(0.2),
               borderRadius: BorderRadius.circular(5)),
-          child: TextButton(
-              child: Text(
-                'Login',
-                style: titleText.copyWith(
-                    fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-              onPressed: () {
-                // Get.toNamed(RouteName.mainPages);
-                return authcc.login(logincc.emailController.text,
-                    logincc.passwordController.text);
-              }),
+          child: BlocListener<AuthenticationCubit, AuthenticationState>(
+            listener: (context, state) {
+              log(state.loginStatus.toString());
+              if (state.loginStatus == LoginStatus.loading) {
+                LoadingOverlay(
+                  isLoading: true,
+                  child: Container(
+                    child: Text('Loading . . .'),
+                  ),
+                );
+              } else if (state.loginStatus == LoginStatus.succes) {
+                Navigator.pushNamed(context, '/main-app');
+              } else if (state.loginStatus == LoginStatus.failure) {
+                final snackBar = SnackBar(
+                  content: const Text('Yay! A SnackBar!'),
+                  action: SnackBarAction(
+                    label: 'Undo',
+                    onPressed: () {
+                      // Some code to undo the change.
+                    },
+                  ),
+                );
+              }
+            },
+            child: TextButton(
+                child: Text(
+                  'Login',
+                  style: titleText.copyWith(
+                      fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+                onPressed: () {
+                  onSubmit();
+                  // Get.toNamed(RouteName.mainPages);
+                }),
+          ),
         ),
         const GapWidget(
           height: 32,
@@ -219,9 +239,7 @@ class _LoginPagesState extends State<LoginPages> {
               style: titleText,
             ),
             TextButton(
-                onPressed: () {
-                  Get.toNamed(RouteName.registerPages);
-                },
+                onPressed: () {},
                 child: Text(
                   'Sign Up',
                   style: titleText.copyWith(color: mainColor),

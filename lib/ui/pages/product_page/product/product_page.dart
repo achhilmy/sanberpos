@@ -1,4 +1,4 @@
-part of '../pages.dart';
+part of '../../pages.dart';
 
 class ProductPage extends StatelessWidget {
   const ProductPage({super.key});
@@ -7,10 +7,10 @@ class ProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Product'),
+        title: const Text('Product'),
       ),
       body: Container(
-        padding: EdgeInsets.only(left: 16, top: 20, right: 16),
+        padding: const EdgeInsets.only(left: 16, top: 20, right: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -24,7 +24,7 @@ class ProductPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                     onPressed: () {},
-                    child: Row(
+                    child: const Row(
                       children: [Icon(Icons.add), Text("Add")],
                     ))
               ],

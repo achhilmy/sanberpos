@@ -14,18 +14,19 @@ class _SplashPagesState extends State<SplashPages> {
     onSplash();
   }
 
-  @override
-  onSplash() async {
+  void onSplash() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     print(pref.getString("user"));
-    var token = pref.getString("user");
+    var token = pref.getString("user-token");
     print(token);
     token == null
-        ? Timer(Duration(seconds: 3), () {
-            Get.toNamed(RouteName.loginPages);
+        ? Timer(const Duration(seconds: 3), () {
+            // Get.toNamed(RmouteName.loginPages);
+            Navigator.pushNamed(context, '/login');
           })
-        : Timer(Duration(seconds: 3), () {
-            Get.toNamed(RouteName.mainPages);
+        : Timer(const Duration(seconds: 3), () {
+            // Get.toNamed(RouteName.mainPages);ss
+            Navigator.pushNamed(context, '/main-app');
           });
   }
 

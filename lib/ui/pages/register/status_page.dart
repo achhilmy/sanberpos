@@ -32,7 +32,7 @@ class StatusPages extends StatelessWidget {
             ButtonLoading(
                 loadingButton: true,
                 onPressed: () {
-                  Get.toNamed(RouteName.mainPages);
+                  // Get.toNamed(RouteName.mainPages);
                 })
           ],
         ),
