@@ -11,7 +11,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
   @override
   void initState() {
     print("object");
-    context.read<CategoryCubit>().getCategory();
+    context.read<CategoryCubit>().categoryListData();
     super.initState();
   }
 
@@ -27,19 +27,43 @@ class _CategoryListPageState extends State<CategoryListPage> {
             log(state.categoryListStatus.toString());
             final data = state.categoryModel;
             if (state.categoryListStatus == CategoryListStatus.success) {
-              ListView.builder(
+              return ListView.separated(
+                  separatorBuilder: (context, index) {
+                    return Divider();
+                  },
                   itemCount: data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
-                      title: Text(data[index].name.toString()),
+                      leading: IconButton(
+                        icon: const Icon(
+                          Icons.edit,
+                          color: Colors.purple,
+                        ),
+                        onPressed: () {},
+                      ),
+                      title: InkWell(
+                        onTap: () {
+                          print('Hello world ${data[index].name.toString()}');
+                        },
+                        child: Text(
+                          data[index].name.toString().toUpperCase(),
+                          style: titleText.copyWith(fontSize: 16),
+                        ),
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(
+                          Icons.remove_circle_outline,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {},
+                      ),
                     );
                   });
             } else {
               return Container(
-                child: Text('Gagal'),
+                child: Text('load Data'),
               );
             }
-            return Text("data");
           },
         ),
       )),

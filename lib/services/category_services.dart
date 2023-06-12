@@ -17,39 +17,40 @@ class CategoryServices {
       throw err;
     }
   }
-//   Future<Either<String, dynamic>> categoryList(
-//       {String? email, String? password}) async {
-//     final categroyList = await DioHttp.getReq(url: API_CATEGORY.categoryList);
-//     // log(categroyList.toString());
-//     return categroyList.fold(
-//       (l) {
-//         return Left(l);
-//       },
-//       (r) async {
-//  final List<CategoryModel> jsonData = json.decode(categroyList as List);
-//       return jsonData
-//           .map((userJson) => CategoryModel.fromJson(userJson))
-//           .toList();
 
-//         CategoryModel categoryModel = CategoryModel();
-//         // List<Map<String, dynamic>> list2 =
-//         //     categoryModel.toJson().entries.map((entry) {
-//         //   return {entry.key: entry.value};
-//         // }).toList();
-//         // return Right(list2);
-//       List<Map<String, dynamic>> list = [];
+  static Future<Either<String, List<CategoryModel>>> categoryList(
+      {String? email, String? password}) async {
+    final categroyList = await DioHttp.getReq(url: API_CATEGORY.categoryList);
+    // log(categroyList.toString());
+    return categroyList.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) {
+        final List<CategoryModel> posts =
+            (r as List).map((json) => CategoryModel.fromJson(json)).toList();
+        return Right(posts);
+      },
+    );
+  }
 
-//       CategoryModel.forEach((key, value) {
-//         Map<String, dynamic> entryMap = {
-//           'key': key,
-//           'value': value,
-//         };
-
-//       list.add(entryMap);
-// });
-
-//       },
-
-//     );
-//   }
+  Future<Either<String, List<CategoryModel>>> fetchData() async {
+    try {
+      // final response = await _apiService.fetchData();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('user-token') ?? '';
+      Response response = await DioHttp.request.get('/api/categories',
+          options: Options(headers: {"Authorization": "Bearer $token"}));
+      if (response.data is List) {
+        final List<CategoryModel> posts = (response.data as List)
+            .map((json) => CategoryModel.fromJson(json))
+            .toList();
+        return Right(posts);
+      } else {
+        return Left('Invalid response data');
+      }
+    } catch (e) {
+      return Left('Failed to fetch data');
+    }
+  }
 }

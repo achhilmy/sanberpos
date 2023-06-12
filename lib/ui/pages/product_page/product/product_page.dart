@@ -1,7 +1,18 @@
 part of '../../pages.dart';
 
-class ProductPage extends StatelessWidget {
+class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
+
+  @override
+  State<ProductPage> createState() => _ProductPageState();
+}
+
+class _ProductPageState extends State<ProductPage> {
+  @override
+  void initState() {
+    context.read<ProductCubit>().productListData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,27 +41,39 @@ class ProductPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            CardProduct(
-                image:
-                    "https://www.realmadrid.com/img/vertical_380px/cristiano_550x650.jpg",
-                title: "Baju Cristiano ronaldo",
-                type: "Outer",
-                stock: "200",
-                price: "20000"),
-            CardProduct(
-                image:
-                    "https://www.realmadrid.com/img/vertical_380px/cristiano_550x650.jpg",
-                title: "Baju Cristiano ronaldo",
-                type: "Outer",
-                stock: "200",
-                price: "20000"),
-            CardProduct(
-                image:
-                    "https://www.realmadrid.com/img/vertical_380px/cristiano_550x650.jpg",
-                title: "Baju Cristiano ronaldo",
-                type: "Outer",
-                stock: "200",
-                price: "20000"),
+            Container(
+              height: MediaQuery.of(context).size.height / 1.5,
+              child: BlocConsumer<ProductCubit, ProductCubitState>(
+                listener: (context, state) {
+                  // TODO: implement listener
+                },
+                builder: (context, state) {
+                  if (state.productListStatus == ProductListStatus.loading) {
+                    return const CardLoading();
+                  } else if (state.productListStatus ==
+                      ProductListStatus.success) {
+                    final dataProduct = state.productModel;
+                    return ListView.separated(
+                        itemBuilder: (context, index) {
+                          return CardProduct(
+                              image: "${dataProduct[index].imageUrls?[0]}",
+                              title: "${dataProduct[index].name}",
+                              type: "${dataProduct[index].description}",
+                              stock: "${dataProduct[index].stock}",
+                              price: "${dataProduct[index].price}");
+                        },
+                        separatorBuilder: (context, index) {
+                          return Divider();
+                        },
+                        itemCount: dataProduct.length);
+                  } else if (state.productListStatus ==
+                      ProductListStatus.failure) {
+                    Navigator.pushNamed(context, '/login');
+                  }
+                  return const CardEmptyData();
+                },
+              ),
+            )
           ],
         ),
       ),

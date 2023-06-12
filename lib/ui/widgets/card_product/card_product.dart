@@ -21,12 +21,14 @@ class CardProduct extends StatelessWidget {
         children: [
           Row(
             children: [
+              SizedBox(width: 10),
               Image.network(
                 image.toString(),
                 // 'https://www.realmadrid.com/img/vertical_380px/cristiano_550x650.jpg',
                 height: 120,
                 width: 90,
               ),
+              SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -72,9 +74,11 @@ class CardProduct extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                OutlinedButton(onPressed: () {}, child: const Text('Edit Stok')),
+                OutlinedButton(
+                    onPressed: () {}, child: const Text('Edit Stok')),
                 const SizedBox(width: 10),
-                OutlinedButton(onPressed: () {}, child: const Text('Edit Price')),
+                OutlinedButton(
+                    onPressed: () {}, child: const Text('Edit Price')),
                 const SizedBox(width: 10),
                 OutlinedButton(
                     onPressed: () {},

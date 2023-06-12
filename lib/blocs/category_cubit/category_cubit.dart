@@ -11,39 +11,27 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   final CategoryServices categoryServices = CategoryServices();
 
-  Future<void> getCategory() async {
-    try {
-      final response = await categoryServices.getList();
+  void categoryListData() async {
+    /// Emit loading state
+    emit(
+      state.copyWith(
+        categoryListStatus: CategoryListStatus.loading,
+      ),
+    );
+
+    /// Get category
+    final res = await categoryServices.fetchData();
+
+    res.fold((l) {
       emit(state.copyWith(
-          categoryModel: response,
-          categoryListStatus: CategoryListStatus.success));
-    } catch (e) {
+        categoryListStatus: CategoryListStatus.failure,
+        message: l,
+      ));
+    }, (r) {
       emit(state.copyWith(
-          message: e.toString(),
-          categoryListStatus: CategoryListStatus.failure));
-    }
+          categoryListStatus: CategoryListStatus.success,
+          message: 'Berhasil load data',
+          categoryModel: r));
+    });
   }
-  // void categoryListData() async {
-  //   /// Emit loading state
-  //   emit(
-  //     state.copyWith(
-  //       categoryListStatus: CategoryListStatus.loading,
-  //     ),
-  //   );
-
-  //   /// Get address
-  //   final res = await CategoryServices.categoryList();
-
-  //   res.fold((l) {
-  //     emit(state.copyWith(
-  //       categoryListStatus: CategoryListStatus.failure,
-  //       message: l,
-  //     ));
-  //   }, (r) {
-  //     emit(state.copyWith(
-  //         categoryListStatus: CategoryListStatus.success,
-  //         message: 'Berhasil load data',
-  //         categoryModel: r));
-  //   });
-  // }
 }

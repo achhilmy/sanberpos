@@ -111,6 +111,7 @@ class DioHttp {
     }
   }
 
+  // ignore: body_might_complete_normally_nullable
   /// Error Condition Handler
   static String? errorHandler({required DioError e, required String url}) {
     /// If error message is from server or server returns 502.
@@ -184,5 +185,6 @@ class DioHttp {
       }
       return e.message ?? "EEM-02 : Unknown Error. Mohon coba lagi nanti.";
     }
+    return null;
   }
 }
