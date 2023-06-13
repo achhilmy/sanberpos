@@ -12,7 +12,7 @@ class _LoginPagesState extends State<LoginPages> {
   final TextEditingController? passwordController = TextEditingController();
 
   onSubmit() {
-    print(emailController?.text);
+    // print(emailController?.text);
     context.read<AuthenticationCubit>().signIn(
         email: emailController?.text, password: passwordController?.text);
   }

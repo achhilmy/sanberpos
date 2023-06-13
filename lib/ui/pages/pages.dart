@@ -22,3 +22,4 @@ part 'product_page/product/product_page.dart';
 part 'product_page/list_category_product.dart';
 part 'product_page/category/category_list.dart';
 part 'data_screen/data_screen.dart';
+part 'product_page/category/detail_category.dart';

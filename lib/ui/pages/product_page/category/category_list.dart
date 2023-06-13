@@ -22,11 +22,24 @@ class _CategoryListPageState extends State<CategoryListPage> {
       body: SafeArea(
           child: Container(
         child: BlocConsumer<CategoryCubit, CategoryState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            print(state.deleteCategoryStatus);
+            if (state.deleteCategoryStatus == DeleteCategoryStatus.loading) {
+              CardLoading();
+            } else if (state.deleteCategoryStatus ==
+                DeleteCategoryStatus.success) {
+              CardSuccess();
+              context.read<CategoryCubit>().categoryListData();
+            } else {
+              return null;
+            }
+          },
           builder: (context, state) {
-            log(state.categoryListStatus.toString());
+            // log(state.categoryListStat÷us.toString());
             final data = state.categoryModel;
-            if (state.categoryListStatus == CategoryListStatus.success) {
+            if (state.categoryListStatus == CategoryListStatus.loading) {
+              return CardLoading();
+            } else if (state.categoryListStatus == CategoryListStatus.success) {
               return ListView.separated(
                   separatorBuilder: (context, index) {
                     return Divider();
@@ -43,7 +56,16 @@ class _CategoryListPageState extends State<CategoryListPage> {
                       ),
                       title: InkWell(
                         onTap: () {
-                          print('Hello world ${data[index].name.toString()}');
+                          final name = " ${data[index].name.toString()}";
+                          final createdAt =
+                              " ${data[index].createdAt.toString()}";
+
+                          Navigator.pushNamed(context, '/detail-category',
+                              arguments: {
+                                "title": name,
+                                "subtitle": createdAt
+                              });
+                          // print('Hello world ${data[index].name.toString()}');
                         },
                         child: Text(
                           data[index].name.toString().toUpperCase(),
@@ -55,18 +77,28 @@ class _CategoryListPageState extends State<CategoryListPage> {
                           Icons.remove_circle_outline,
                           color: Colors.red,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          print('id ${data[index].id.toString()}');
+                          final id = " ${data[index].id.toString()}";
+                          context
+                              .read<CategoryCubit>()
+                              .deleteCategoryData(id: id);
+                        },
                       ),
                     );
                   });
             } else {
-              return Container(
-                child: Text('load Data'),
-              );
+              return CardEmptyData();
             }
           },
         ),
       )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/add-category');
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }

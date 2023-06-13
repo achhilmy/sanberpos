@@ -8,3 +8,5 @@ part 'card_product/card_product.dart';
 part 'menu_cashier/menu_cashier.dart';
 part 'card_loading/card_loading.dart';
 part 'card_loading/card_empty_data.dart';
+part 'input_text/normal_input.dart';
+part 'card_loading/card_success.dart';
