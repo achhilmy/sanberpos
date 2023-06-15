@@ -34,7 +34,9 @@ class _ProductPageState extends State<ProductPage> {
                       fontSize: 20, fontWeight: FontWeight.w700),
                 ),
                 ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/add-product');
+                    },
                     child: const Row(
                       children: [Icon(Icons.add), Text("Add")],
                     ))
@@ -45,7 +47,17 @@ class _ProductPageState extends State<ProductPage> {
               height: MediaQuery.of(context).size.height / 1.5,
               child: BlocConsumer<ProductCubit, ProductCubitState>(
                 listener: (context, state) {
-                  // TODO: implement listener
+                  print(state.deleteProductStatus);
+                  if (state.deleteProductStatus ==
+                      DeleteProductStatus.loading) {
+                    CardLoading();
+                  } else if (state.deleteProductStatus ==
+                      DeleteProductStatus.success) {
+                    CardSuccess();
+                    context.read<ProductCubit>().productListData();
+                  } else {
+                    return null;
+                  }
                 },
                 builder: (context, state) {
                   if (state.productListStatus == ProductListStatus.loading) {
@@ -55,12 +67,34 @@ class _ProductPageState extends State<ProductPage> {
                     final dataProduct = state.productModel;
                     return ListView.separated(
                         itemBuilder: (context, index) {
-                          return CardProduct(
+                          return InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/detail-product',
+                                  arguments: {
+                                    "image_list":
+                                        "${dataProduct[index].imageUrls?[0]}",
+                                    "title": "${dataProduct[index].name}",
+                                    "type": "${dataProduct[index].description}",
+                                    "stock": "${dataProduct[index].stock}",
+                                    "price": "${dataProduct[index].price}",
+                                    "sku": "${dataProduct[index].sku}"
+                                  });
+                            },
+                            child: CardProduct(
                               image: "${dataProduct[index].imageUrls?[0]}",
                               title: "${dataProduct[index].name}",
                               type: "${dataProduct[index].description}",
                               stock: "${dataProduct[index].stock}",
-                              price: "${dataProduct[index].price}");
+                              price: "${dataProduct[index].price}",
+                              onPressed: () {
+                                final id = "${dataProduct[index].id}";
+                                print(id);
+                                // context
+                                //     .read<ProductCubit>()
+                                //     .deleteProductData(id: id);
+                              },
+                            ),
+                          );
                         },
                         separatorBuilder: (context, index) {
                           return Divider();

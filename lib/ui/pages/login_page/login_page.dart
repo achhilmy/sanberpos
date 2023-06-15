@@ -11,8 +11,7 @@ class _LoginPagesState extends State<LoginPages> {
   final TextEditingController? emailController = TextEditingController();
   final TextEditingController? passwordController = TextEditingController();
 
-  onSubmit() {
-    // print(emailController?.text);
+  void onSubmit() {
     context.read<AuthenticationCubit>().signIn(
         email: emailController?.text, password: passwordController?.text);
   }
@@ -138,9 +137,9 @@ class _LoginPagesState extends State<LoginPages> {
                       // color: Theme.of(context).primaryColorDark,
                       ),
                   onPressed: () {
-                    setState(() {
-                      // _passwordVisible = !_passwordVisible;
-                    });
+                    // setState(() {
+                    //   // _passwordVisible = !_passwordVisible;
+                    // });
                   },
                 )),
           ),
@@ -165,24 +164,20 @@ class _LoginPagesState extends State<LoginPages> {
             listener: (context, state) {
               log(state.loginStatus.toString());
               if (state.loginStatus == LoginStatus.loading) {
-                LoadingOverlay(
-                  isLoading: true,
-                  child: Container(
-                    child: Text('Loading . . .'),
-                  ),
-                );
+                CardLoading();
               } else if (state.loginStatus == LoginStatus.succes) {
                 Navigator.pushNamed(context, '/main-app');
               } else if (state.loginStatus == LoginStatus.failure) {
+                print("gagal maning");
                 final snackBar = SnackBar(
-                  content: const Text('Yay! A SnackBar!'),
+                  content: Text('Invalid Email And Password'),
+                  backgroundColor: (Colors.red),
                   action: SnackBarAction(
-                    label: 'Undo',
-                    onPressed: () {
-                      // Some code to undo the change.
-                    },
+                    label: 'dismiss',
+                    onPressed: () {},
                   ),
                 );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
             },
             child: TextButton(

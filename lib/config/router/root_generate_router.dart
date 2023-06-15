@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sanber_pos/ui/pages/pages.dart';
 import 'package:sanber_pos/ui/pages/product_page/category/add_category.dart';
+import 'package:sanber_pos/ui/pages/product_page/product/add_product_page.dart';
+import 'package:sanber_pos/ui/pages/product_page/product/detail_product.dart';
 
 class RootRouter {
   Route? generateRouter(RouteSettings settings) {
     print("root requested route ${settings.name}");
     final arguments = settings.arguments;
+    final dataProduct = settings.arguments;
+
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => SplashPages());
@@ -19,6 +23,13 @@ class RootRouter {
         return MaterialPageRoute(builder: (_) => ListCategoryProduct());
       case '/product':
         return MaterialPageRoute(builder: (_) => ProductPage());
+      case '/detail-product':
+        return MaterialPageRoute(
+            builder: (_) => DetailProductPage(
+                  dataProduct: arguments,
+                ));
+      case '/add-product':
+        return MaterialPageRoute(builder: (_) => AddProductPage());
       case '/list-category':
         return MaterialPageRoute(builder: (_) => CategoryListPage());
       case '/add-category':

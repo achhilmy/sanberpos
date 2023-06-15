@@ -25,8 +25,13 @@ class MainApp extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: ButtonLoading(
               loadingButton: false,
-              title: 'Go to Cashier',
-              onPressed: () {},
+              title: 'Logout',
+              onPressed: () async {
+                SharedPreferences preferences =
+                    await SharedPreferences.getInstance();
+                await preferences.clear();
+                Navigator.pushNamed(context, '/login');
+              },
               Icons: Icons.grid_view,
             ),
           )

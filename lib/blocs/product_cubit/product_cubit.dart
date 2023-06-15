@@ -31,4 +31,31 @@ class ProductCubit extends Cubit<ProductCubitState> {
           productModel: r));
     });
   }
+
+  void deleteProductData({String? id}) async {
+    /// Emit loading state
+    emit(
+      state.copyWith(
+        deleteProductStatus: DeleteProductStatus.loading,
+      ),
+    );
+
+    /// Get category
+    final res = await productServices.deleteProduct(id: id);
+
+    res.fold((l) {
+      emit(state.copyWith(
+        deleteProductStatus: DeleteProductStatus.failure,
+        message: l,
+      ));
+    }, (r) {
+      emit(state.copyWith(
+          deleteProductStatus: DeleteProductStatus.success,
+          message: 'Berhasil menghapus data',
+          isSuccess: r));
+      emit(state.copyWith(
+        deleteProductStatus: DeleteProductStatus.initial,
+      ));
+    });
+  }
 }

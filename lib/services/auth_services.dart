@@ -1,22 +1,19 @@
 part of 'services.dart';
 
 class AuthServices {
-  static Future<Either<String, SignInModel>> signIn(
+  Future<Either<String, SignInModel>> signIn(
       {String? email, String? password}) async {
-    final loginResponse = await DioHttp.postReq(
-        url: API_CLIENT.loginClient,
-        body: {'email': email, 'password': password});
-    log('isinya apa : ${loginResponse}');
-    return loginResponse.fold(
-      (l) {
-        return Left(l);
-      },
-      (r) async {
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('user-token', r['data']["token"]);
-        return Right(SignInModel.fromJson(r));
-      },
-    );
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      Response loginResponse = await DioHttp.request.post("/api/auth/login",
+          data: {'email': email, 'password': password});
+
+      final r = loginResponse.data;
+      prefs.setString('user-token', r['data']["token"]);
+      return Right(SignInModel.fromJson(r));
+    } catch (e) {
+      return Left('Failed to fetch data ${e}');
+    }
   }
 
   static Future<dynamic> register(

@@ -3,12 +3,19 @@ part of '../widget.dart';
 class CardProduct extends StatelessWidget {
   // ignore: non_constant_identifier_names
   CardProduct(
-      {super.key, this.title, this.stock, this.image, this.type, this.price});
+      {super.key,
+      this.title,
+      this.stock,
+      this.image,
+      this.type,
+      this.price,
+      this.onPressed});
   String? title;
   String? stock;
   String? image;
   String? type;
   String? price;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +88,7 @@ class CardProduct extends StatelessWidget {
                     onPressed: () {}, child: const Text('Edit Price')),
                 const SizedBox(width: 10),
                 OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () => onPressed!(),
                     child: const Icon(
                       Icons.delete,
                       color: Colors.red,
