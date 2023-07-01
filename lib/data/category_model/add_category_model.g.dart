@@ -23,3 +23,14 @@ Map<String, dynamic> _$$_AddCategoryModelToJson(_$_AddCategoryModel instance) =>
       'created_at': instance.createdAt,
       'id': instance.id,
     };
+
+_$_EditCategoryModel _$$_EditCategoryModelFromJson(Map<String, dynamic> json) =>
+    _$_EditCategoryModel(
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$$_EditCategoryModelToJson(
+        _$_EditCategoryModel instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };

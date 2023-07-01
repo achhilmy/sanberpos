@@ -166,7 +166,10 @@ class _LoginPagesState extends State<LoginPages> {
               if (state.loginStatus == LoginStatus.loading) {
                 CardLoading();
               } else if (state.loginStatus == LoginStatus.succes) {
-                Navigator.pushNamed(context, '/main-app');
+                // context.read<ProfileCubit>().profileData();
+                Future.delayed(Duration(seconds: 3), () {
+                  Navigator.pushNamed(context, '/main-app');
+                });
               } else if (state.loginStatus == LoginStatus.failure) {
                 print("gagal maning");
                 final snackBar = SnackBar(
@@ -234,7 +237,9 @@ class _LoginPagesState extends State<LoginPages> {
               style: titleText,
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/register');
+                },
                 child: Text(
                   'Sign Up',
                   style: titleText.copyWith(color: mainColor),

@@ -36,4 +36,39 @@ class ProductServices {
       return Left('Failed to fetch data ${e}');
     }
   }
+
+  Future<Either<String, ProductModel>> addProduct(
+      {String? name,
+      String? description,
+      price,
+      stock,
+      String? sku,
+      categroyId,
+      image}) async {
+    try {
+      // final response = await _apiService.fetchData();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('user-token') ?? '';
+      final response = await DioHttp.request.post('/api/products',
+          data: {
+            "name": "product44",
+            "description": "description1",
+            "price": 333,
+            "stock": 444,
+            "sku": "sku1",
+            "category_id": 88,
+            "image_urls": ["string"]
+          },
+          options: Options(headers: {"Authorization": "Bearer $token"}));
+      log(response.statusCode.toString());
+      log("isinya apa " + response.data.toString());
+      if (response.statusCode == 201) {
+        return Right(ProductModel.fromJson(response.data));
+      } else {
+        return Left('gagal menambahkan data');
+      }
+    } catch (e) {
+      return Left('gagal kenapa ${e} ');
+    }
+  }
 }

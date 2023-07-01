@@ -9,7 +9,10 @@ import 'package:sanber_pos/blocs/Authentication_cubit/authentication_cubit.dart'
 import 'package:sanber_pos/blocs/category_cubit/category_cubit.dart';
 import 'package:sanber_pos/blocs/post_bloc/posts_bloc.dart';
 import 'package:sanber_pos/blocs/product_cubit/product_cubit.dart';
+import 'package:sanber_pos/blocs/profile_cubit/profile_cubit.dart';
 import 'package:sanber_pos/config/shared/shared.dart';
+import 'package:sanber_pos/ui/customer/customer_page.dart';
+import 'package:sanber_pos/ui/pages/core_component/core_component.dart';
 import 'package:sanber_pos/ui/widgets/widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

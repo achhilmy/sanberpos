@@ -1,7 +1,19 @@
 part of '../pages.dart';
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
+
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  @override
+  void initState() {
+    print("object");
+    context.read<ProfileCubit>().profileData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,117 +53,131 @@ class MainApp extends StatelessWidget {
   }
 
   Widget nameAndNotif(context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "David Sunandar",
-          style: titleText.copyWith(
-              color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
+      log(state.profileStatus.toString());
+      if (state.profileStatus == ProfileStatus.loading) {
+        CardLoading();
+      } else if (state.profileStatus == ProfileStatus.success) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Businness owner',
-              style: titleText.copyWith(
-                  color: Colors.grey.withOpacity(0.5),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400),
-            ),
-            const Icon(
-              Icons.notifications,
-              color: Colors.white,
-            )
-          ],
-        ),
-        const SizedBox(height: 48),
-        Row(
-          children: [
-            InkWell(
-              onTap: () {},
-              child: Container(
-                height: 30,
-                width: 96,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(width: 0.1),
-                    color: Colors.white),
-                child: const Text('Transactions'),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            InkWell(
-              onLongPress: () {},
-              child: Container(
-                height: 30,
-                width: 114,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(width: 0.1, color: cGrey),
-                    color: secondaryColor.withOpacity(0.1)),
-                child: Text(
-                  'Product Sales',
-                  style: titleText.copyWith(
-                      fontSize: 14, fontWeight: FontWeight.w400, color: cGrey),
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        Text(
-          "This month transaction",
-          style: titleText.copyWith(
-              color: cGrey, fontSize: 14, fontWeight: FontWeight.w400),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              '3599.00',
+              state.profileModel.id.toString(),
               style: titleText.copyWith(
                   color: Colors.white,
-                  fontSize: 36,
+                  fontSize: 18,
                   fontWeight: FontWeight.w700),
             ),
-            Container(
-              height: 28,
-              width: 69,
-              padding: const EdgeInsets.only(left: 5),
-              decoration: BoxDecoration(
-                  color: cBlue, borderRadius: BorderRadius.circular(5)),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.arrow_upward,
-                    color: Colors.white,
-                    size: 15,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Businness owner',
+                  style: titleText.copyWith(
+                      color: Colors.grey.withOpacity(0.5),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400),
+                ),
+                const Icon(
+                  Icons.notifications,
+                  color: Colors.white,
+                )
+              ],
+            ),
+            const SizedBox(height: 48),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    height: 30,
+                    width: 96,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(width: 0.1),
+                        color: Colors.white),
+                    child: const Text('Transactions'),
                   ),
-                  const SizedBox(
-                    width: 5,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                InkWell(
+                  onLongPress: () {},
+                  child: Container(
+                    height: 30,
+                    width: 114,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(width: 0.1, color: cGrey),
+                        color: secondaryColor.withOpacity(0.1)),
+                    child: Text(
+                      'Product Sales',
+                      style: titleText.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: cGrey),
+                    ),
                   ),
-                  Text(
-                    '20%',
-                    style: titleText.copyWith(color: Colors.white),
-                  )
-                ],
-              ),
-            )
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Text(
+              "This month transaction",
+              style: titleText.copyWith(
+                  color: cGrey, fontSize: 14, fontWeight: FontWeight.w400),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '3599.00',
+                  style: titleText.copyWith(
+                      color: Colors.white,
+                      fontSize: 36,
+                      fontWeight: FontWeight.w700),
+                ),
+                Container(
+                  height: 28,
+                  width: 69,
+                  padding: const EdgeInsets.only(left: 5),
+                  decoration: BoxDecoration(
+                      color: cBlue, borderRadius: BorderRadius.circular(5)),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.arrow_upward,
+                        color: Colors.white,
+                        size: 15,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        '20%',
+                        style: titleText.copyWith(color: Colors.white),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Image.asset('assets/logo/graph.png')
           ],
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        Image.asset('assets/logo/graph.png')
-      ],
-    );
+        );
+      } else if (state.profileStatus == ProfileStatus.failure) {
+        return Text(state.message);
+      }
+      return Text('Gagal aja');
+    });
   }
 
   Widget menuCashier(context) {
@@ -190,7 +216,7 @@ class MainApp extends StatelessWidget {
           title: 'Customer',
           icons: Icons.group,
           onPressed: () {
-            print('customer');
+            Navigator.pushNamed(context, '/edit-profile');
           },
         ),
         MenuCashier(
@@ -198,6 +224,8 @@ class MainApp extends StatelessWidget {
           icons: Icons.settings,
           onPressed: () {
             print('setting');
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CoreComponnet()));
           },
         ),
       ],

@@ -35,7 +35,9 @@ class _ProductPageState extends State<ProductPage> {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/add-product');
+                      Navigator.pushNamed(context, '/add-product', arguments: {
+                        "isEdit": false,
+                      });
                     },
                     child: const Row(
                       children: [Icon(Icons.add), Text("Add")],
@@ -47,7 +49,7 @@ class _ProductPageState extends State<ProductPage> {
               height: MediaQuery.of(context).size.height / 1.5,
               child: BlocConsumer<ProductCubit, ProductCubitState>(
                 listener: (context, state) {
-                  print(state.deleteProductStatus);
+                  // print(state.deleteProductStatus);
                   if (state.deleteProductStatus ==
                       DeleteProductStatus.loading) {
                     CardLoading();
@@ -67,6 +69,7 @@ class _ProductPageState extends State<ProductPage> {
                     final dataProduct = state.productModel;
                     return ListView.separated(
                         itemBuilder: (context, index) {
+                          print(dataProduct[index].imageUrls?.toString());
                           return InkWell(
                             onTap: () {
                               Navigator.pushNamed(context, '/detail-product',
@@ -81,17 +84,24 @@ class _ProductPageState extends State<ProductPage> {
                                   });
                             },
                             child: CardProduct(
-                              image: "${dataProduct[index].imageUrls?[0]}",
+                              image:
+                                  "https://upload.wikimedia.org/wikipedia/commons/2/23/Cristiano_Ronaldo_WC2022_-_01.jpg",
                               title: "${dataProduct[index].name}",
                               type: "${dataProduct[index].description}",
                               stock: "${dataProduct[index].stock}",
                               price: "${dataProduct[index].price}",
+                              onEdit: () {
+                                Navigator.pushNamed(context, '/add-product',
+                                    arguments: {
+                                      "isEdit": true,
+                                    });
+                              },
                               onPressed: () {
                                 final id = "${dataProduct[index].id}";
-                                print(id);
-                                // context
-                                //     .read<ProductCubit>()
-                                //     .deleteProductData(id: id);
+                                // print(id);
+                                context
+                                    .read<ProductCubit>()
+                                    .deleteProductData(id: id);
                               },
                             ),
                           );

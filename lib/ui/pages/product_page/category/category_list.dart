@@ -52,7 +52,13 @@ class _CategoryListPageState extends State<CategoryListPage> {
                           Icons.edit,
                           color: Colors.purple,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/add-category',
+                              arguments: {
+                                "id": data[index].id,
+                                "isEdit": 1,
+                              });
+                        },
                       ),
                       title: InkWell(
                         onTap: () {

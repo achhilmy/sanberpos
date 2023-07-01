@@ -5,6 +5,7 @@ class DetailProductPage extends StatelessWidget {
   DetailProductPage({super.key, this.dataProduct});
 
   final dataProduct;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

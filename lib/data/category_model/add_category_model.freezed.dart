@@ -233,3 +233,141 @@ abstract class _AddCategoryModel implements AddCategoryModel {
   _$$_AddCategoryModelCopyWith<_$_AddCategoryModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+EditCategoryModel _$EditCategoryModelFromJson(Map<String, dynamic> json) {
+  return _EditCategoryModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$EditCategoryModel {
+  String? get name => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $EditCategoryModelCopyWith<EditCategoryModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $EditCategoryModelCopyWith<$Res> {
+  factory $EditCategoryModelCopyWith(
+          EditCategoryModel value, $Res Function(EditCategoryModel) then) =
+      _$EditCategoryModelCopyWithImpl<$Res, EditCategoryModel>;
+  @useResult
+  $Res call({String? name});
+}
+
+/// @nodoc
+class _$EditCategoryModelCopyWithImpl<$Res, $Val extends EditCategoryModel>
+    implements $EditCategoryModelCopyWith<$Res> {
+  _$EditCategoryModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+  }) {
+    return _then(_value.copyWith(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_EditCategoryModelCopyWith<$Res>
+    implements $EditCategoryModelCopyWith<$Res> {
+  factory _$$_EditCategoryModelCopyWith(_$_EditCategoryModel value,
+          $Res Function(_$_EditCategoryModel) then) =
+      __$$_EditCategoryModelCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? name});
+}
+
+/// @nodoc
+class __$$_EditCategoryModelCopyWithImpl<$Res>
+    extends _$EditCategoryModelCopyWithImpl<$Res, _$_EditCategoryModel>
+    implements _$$_EditCategoryModelCopyWith<$Res> {
+  __$$_EditCategoryModelCopyWithImpl(
+      _$_EditCategoryModel _value, $Res Function(_$_EditCategoryModel) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+  }) {
+    return _then(_$_EditCategoryModel(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class _$_EditCategoryModel implements _EditCategoryModel {
+  const _$_EditCategoryModel({this.name});
+
+  factory _$_EditCategoryModel.fromJson(Map<String, dynamic> json) =>
+      _$$_EditCategoryModelFromJson(json);
+
+  @override
+  final String? name;
+
+  @override
+  String toString() {
+    return 'EditCategoryModel(name: $name)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_EditCategoryModel &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_EditCategoryModelCopyWith<_$_EditCategoryModel> get copyWith =>
+      __$$_EditCategoryModelCopyWithImpl<_$_EditCategoryModel>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_EditCategoryModelToJson(
+      this,
+    );
+  }
+}
+
+abstract class _EditCategoryModel implements EditCategoryModel {
+  const factory _EditCategoryModel({final String? name}) = _$_EditCategoryModel;
+
+  factory _EditCategoryModel.fromJson(Map<String, dynamic> json) =
+      _$_EditCategoryModel.fromJson;
+
+  @override
+  String? get name;
+  @override
+  @JsonKey(ignore: true)
+  _$$_EditCategoryModelCopyWith<_$_EditCategoryModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}

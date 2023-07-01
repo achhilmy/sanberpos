@@ -8,7 +8,11 @@ import 'package:sanber_pos/data/category_model/add_category_model.dart';
 import 'package:sanber_pos/data/category_model/category_list_model.dart';
 import 'package:sanber_pos/data/category_model/category_model.dart';
 import 'package:sanber_pos/data/post_model/post_model.dart';
+import 'package:sanber_pos/data/product_model/add_product_model/add_product_model.dart';
 import 'package:sanber_pos/data/product_model/product_model.dart';
+import 'package:sanber_pos/data/profile_model/edit_profile_model/edit_profile_model.dart';
+import 'package:sanber_pos/data/profile_model/profile_model.dart';
+import 'package:sanber_pos/data/register_model.dart/register_model.dart';
 import 'package:sanber_pos/data/sign_in_model/sign_in_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/config.dart';
@@ -17,3 +21,5 @@ part 'category_services.dart';
 part 'api_services.dart';
 part 'post_repository.dart';
 part 'product_services.dart';
+
+part 'profile_services.dart';

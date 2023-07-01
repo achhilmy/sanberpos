@@ -12,30 +12,54 @@ class _RegisterPagesState extends State<RegisterPages> {
   final _passwordVisible = false;
   final _formKeyReg = GlobalKey<FormState>();
   //GlobalKey<FormState> _formKeyReg = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+
+  void onSubmit() {
+    context.read<AuthenticationCubit>().signUp(
+        name: nameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+        confirmPassword: confirmPasswordController.text);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         // appBar: AppBar(title: Text('Login Screen')),
-        body: LoadingOverlay(
-      isLoading: true,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              headerTitle(context),
-              const SizedBox(
-                height: 32,
-              ),
-              titleSignIn(context),
-              formPhoneNumberAndPassword(context),
-              buttonCheckout(context),
-            ],
+        body: BlocListener<AuthenticationCubit, AuthenticationState>(
+      listener: (context, state) {
+        log(state.registerStatus.toString());
+        if (state.registerStatus == RegisterStatus.succes) {
+          Future.delayed(Duration(seconds: 3), () {
+            Navigator.pushNamed(context, '/login');
+          });
+        } else if (state.registerStatus == RegisterStatus.failure) {
+          log(state.message);
+        }
+      },
+      child: LoadingOverlay(
+        isLoading: context.watch<AuthenticationCubit>().state.isLoading,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                headerTitle(context),
+                const SizedBox(
+                  height: 32,
+                ),
+                titleSignIn(context),
+                formPhoneNumberAndPassword(context),
+                buttonCheckout(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -88,9 +112,9 @@ class _RegisterPagesState extends State<RegisterPages> {
               border: Border.all(color: Colors.grey),
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
-          child: const TextField(
-            // controller: registerc.emailController,
-            decoration: InputDecoration(
+          child: TextField(
+            controller: emailController,
+            decoration: const InputDecoration(
                 hintText: 'ex. yourname@gmail.com',
                 prefixIcon: Icon(
                   Icons.email,
@@ -103,7 +127,7 @@ class _RegisterPagesState extends State<RegisterPages> {
           height: 16,
         ),
         Text(
-          'Phone',
+          'Name',
           style: titleText.copyWith(
             color: cBlack,
             fontSize: 14,
@@ -117,12 +141,12 @@ class _RegisterPagesState extends State<RegisterPages> {
               border: Border.all(color: Colors.grey),
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
-          child: const TextField(
-            // controller: registerc.nameController,
-            decoration: InputDecoration(
+          child: TextField(
+            controller: nameController,
+            decoration: const InputDecoration(
                 hintText: 'name',
                 prefixIcon: Icon(
-                  Icons.call,
+                  Icons.account_circle,
                   color: Colors.grey,
                 ),
                 border: InputBorder.none),
@@ -149,9 +173,9 @@ class _RegisterPagesState extends State<RegisterPages> {
               border: Border.all(color: Colors.grey),
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
-          child: const TextField(
-            // controller: registerc.passwordController,
-            decoration: InputDecoration(
+          child: TextField(
+            controller: passwordController,
+            decoration: const InputDecoration(
                 prefixIcon: Icon(
                   Icons.key,
                   color: Colors.grey,
@@ -185,9 +209,9 @@ class _RegisterPagesState extends State<RegisterPages> {
               border: Border.all(color: Colors.grey),
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(5)),
-          child: const TextField(
-            // controller: registerc.confirmPasswordController,
-            decoration: InputDecoration(
+          child: TextField(
+            controller: confirmPasswordController,
+            decoration: const InputDecoration(
                 prefixIcon: Icon(
                   Icons.key,
                   color: Colors.grey,
@@ -226,8 +250,7 @@ class _RegisterPagesState extends State<RegisterPages> {
                   titleText.copyWith(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             onPressed: () {
-              return;
-
+              onSubmit();
               // Get.toNamed(RouteName.statusPages);
             },
           ),
@@ -274,9 +297,11 @@ class _RegisterPagesState extends State<RegisterPages> {
               style: titleText,
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/login');
+                },
                 child: Text(
-                  'Sign Up',
+                  'Sign In',
                   style: titleText.copyWith(color: mainColor),
                 ))
           ],

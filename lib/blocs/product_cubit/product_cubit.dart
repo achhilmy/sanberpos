@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sanber_pos/data/product_model/add_product_model/add_product_model.dart';
 import 'package:sanber_pos/data/product_model/product_model.dart';
 import 'package:sanber_pos/services/services.dart';
 
@@ -55,6 +56,50 @@ class ProductCubit extends Cubit<ProductCubitState> {
           isSuccess: r));
       emit(state.copyWith(
         deleteProductStatus: DeleteProductStatus.initial,
+      ));
+    });
+  }
+
+  //tambah data
+  void addProduct({
+    String? name,
+    String? description,
+    String? sku,
+    price,
+    categoryId,
+    stock,
+    image,
+  }) async {
+    /// Emit loading state
+    emit(
+      state.copyWith(
+          addProductStatus: AddProductStatus.loading, isLoading: true),
+    );
+
+    /// Get category
+    final res = await productServices.addProduct(
+        name: name,
+        description: description,
+        sku: sku,
+        price: price,
+        categroyId: categoryId,
+        stock: stock,
+        image: image);
+
+    res.fold((l) {
+      emit(state.copyWith(
+          addProductStatus: AddProductStatus.failure,
+          message: l,
+          isLoading: false));
+    }, (r) {
+      emit(state.copyWith(
+          isLoading: false,
+          addProductStatus: AddProductStatus.success,
+          message: 'Berhasil menambah data',
+          addProductModel: r));
+      emit(state.copyWith(
+        isLoading: false,
+        addProductStatus: AddProductStatus.initial,
       ));
     });
   }

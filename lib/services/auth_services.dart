@@ -16,27 +16,24 @@ class AuthServices {
     }
   }
 
-  static Future<dynamic> register(
+  Future<Either<String, RegisterModel>> register(
       {String? email,
-      String? fullname,
-      String? phone,
-      String? password}) async {
+      String? name,
+      String? password,
+      String? confirmPassword}) async {
     try {
       final registerResponse =
           await DioHttp.request.post("api/auth/register", data: {
         "email": email,
-        "name": fullname,
-        "password": phone,
-        "password_confirmation": password
+        "name": name,
+        "password": password,
+        "password_confirmation": confirmPassword
       });
       log("ini data log register:$registerResponse");
 
-      if (registerResponse.statusCode == 200) {
-        return registerResponse;
-      }
-      throw registerResponse;
+      return Right(RegisterModel.fromJson(registerResponse.data));
     } catch (e) {
-      return null;
+      return Left(e.toString());
     }
   }
 }

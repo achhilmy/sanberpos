@@ -17,3 +17,12 @@ class AddCategoryModel with _$AddCategoryModel {
   factory AddCategoryModel.fromJson(Map<String, dynamic> json) =>
       _$AddCategoryModelFromJson(json);
 }
+
+@freezed
+class EditCategoryModel with _$EditCategoryModel {
+  @JsonSerializable(fieldRename: FieldRename.snake)
+  const factory EditCategoryModel({String? name}) = _EditCategoryModel;
+
+  factory EditCategoryModel.fromJson(Map<String, dynamic> json) =>
+      _$EditCategoryModelFromJson(json);
+}

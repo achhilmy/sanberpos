@@ -9,13 +9,15 @@ class CardProduct extends StatelessWidget {
       this.image,
       this.type,
       this.price,
-      this.onPressed});
+      this.onPressed,
+      this.onEdit});
   String? title;
   String? stock;
   String? image;
   String? type;
   String? price;
   final VoidCallback? onPressed;
+  final VoidCallback? onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -79,13 +81,11 @@ class CardProduct extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width / 1,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 OutlinedButton(
-                    onPressed: () {}, child: const Text('Edit Stok')),
-                const SizedBox(width: 10),
-                OutlinedButton(
-                    onPressed: () {}, child: const Text('Edit Price')),
+                    onPressed: () => onEdit!(),
+                    child: const Text('Edit Product')),
                 const SizedBox(width: 10),
                 OutlinedButton(
                     onPressed: () => onPressed!(),

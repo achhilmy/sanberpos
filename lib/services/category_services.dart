@@ -53,4 +53,22 @@ class CategoryServices {
       return Left('Failed to fetch data ${e}');
     }
   }
+
+  Future<Either<String, EditCategoryModel>> editCategory(
+      {String? name, String? id}) async {
+    try {
+      // final response = await _apiService.fetchData();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('user-token') ?? '';
+      Response response = await DioHttp.request.put('/api/categories/${id}',
+          data: {"name": "${name}"},
+          options: Options(headers: {"Authorization": "Bearer $token"}));
+      log(response.statusCode.toString());
+
+      final parsedJson = EditCategoryModel.fromJson(response.data);
+      return Right(parsedJson);
+    } catch (e) {
+      return Left('Failed to fetch data ${e}');
+    }
+  }
 }
